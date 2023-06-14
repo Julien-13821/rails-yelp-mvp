@@ -1,0 +1,24 @@
+<h1><%= @restaurant.name %></h1>
+<ul>
+<li><%=@restaurant.address %></li>
+<li><%=@restaurant.phone_number%></li>
+<li><%=@restaurant.category%></li>
+</ul>
+<%= link_to "see all restaurants", restaurants_path %>
+
+<% @restaurant.reviews.each do |review| %>
+<%= review.rating %>/5
+<%= review.content %><br>
+<% end %>
+
+<%= simple_form_for [@restaurant, @review] do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <div class="form-inputs">
+    <%= f.input :rating, collection: Review::RATING %>
+    <%= f.input :content %>
+  </div>
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>
